@@ -174,33 +174,35 @@ public class JSONFunctions {
      */
     public static void appendString(Appendable a, CharSequence cs, boolean includeNonASCII) throws IOException {
         a.append('"');
-        for (int i = 0, n = cs.length(); i < n; i++) {
-            char ch = cs.charAt(i);
-            if (ch == '"' || ch == '\\') {
-                a.append('\\');
-                a.append(ch);
-            }
-            else if (ch == '\b')
-                a.append("\\b");
-            else if (ch == '\f')
-                a.append("\\f");
-            else if (ch == '\n')
-                a.append("\\n");
-            else if (ch == '\r')
-                a.append("\\r");
-            else if (ch == '\t')
-                a.append("\\t");
-            else if (ch < 0x20 || ch >= 0x7F && !includeNonASCII) {
-                a.append("\\u");
-                a.append(hexDigits[(ch >> 12) & 0xF]);
-                a.append(hexDigits[(ch >> 8) & 0xF]);
-                a.append(hexDigits[(ch >> 4) & 0xF]);
-                a.append(hexDigits[ch & 0xF]);
-            }
-            else
-                a.append(ch);
-        }
+        for (int i = 0, n = cs.length(); i < n; i++)
+            appendChar(a, cs.charAt(i), includeNonASCII);
         a.append('"');
+    }
+
+    public static void appendChar(Appendable a, char ch, boolean includeNonASCII) throws IOException {
+        if (ch == '"' || ch == '\\') {
+            a.append('\\');
+            a.append(ch);
+        }
+        else if (ch == '\b')
+            a.append("\\b");
+        else if (ch == '\f')
+            a.append("\\f");
+        else if (ch == '\n')
+            a.append("\\n");
+        else if (ch == '\r')
+            a.append("\\r");
+        else if (ch == '\t')
+            a.append("\\t");
+        else if (ch < 0x20 || ch >= 0x7F && !includeNonASCII) {
+            a.append("\\u");
+            a.append(hexDigits[(ch >> 12) & 0xF]);
+            a.append(hexDigits[(ch >> 8) & 0xF]);
+            a.append(hexDigits[(ch >> 4) & 0xF]);
+            a.append(hexDigits[ch & 0xF]);
+        }
+        else
+            a.append(ch);
     }
 
     /**

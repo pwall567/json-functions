@@ -114,6 +114,22 @@ public class JSONFunctionsTest {
     }
 
     @Test
+    public void shouldFormatSingleChar() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        JSONFunctions.appendChar(sb, 'A', false);
+        assertEquals("A", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.appendChar(sb, '\t', false);
+        assertEquals("\\t", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.appendChar(sb, '\u2014', false);
+        assertEquals("\\u2014", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.appendChar(sb, '\u2014', true);
+        assertEquals("\u2014", sb.toString());
+    }
+
+    @Test
     public void shouldParseSimpleString() {
         TextMatcher tm = new TextMatcher("\"simple\"");
         tm.setIndex(1);

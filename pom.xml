@@ -5,7 +5,7 @@
 
   <groupId>net.pwall.json</groupId>
   <artifactId>json-functions</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <name>Functions for use in JSON parsing and formatting</name>
   <description>Library of functions for use in JSON parsing and formatting</description>
   <packaging>jar</packaging>
@@ -45,9 +45,9 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>jcenter</id>
-      <name>JCenter</name>
-      <url>https://jcenter.bintray.com/</url>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
     </pluginRepository>
   </pluginRepositories>
 
