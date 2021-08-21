@@ -95,6 +95,35 @@ public class JSONFunctionsTest {
     }
 
     @Test
+    public void  shouldOutput2DigitsCorrectly() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        JSONFunctions.append2Digits(sb, 0);
+        assertEquals("00", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.append2Digits(sb, 1);
+        assertEquals("01", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.append2Digits(sb, 21);
+        assertEquals("21", sb.toString());
+    }
+
+    @Test
+    public void  shouldOutput3DigitsCorrectly() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        JSONFunctions.append3Digits(sb, 0);
+        assertEquals("000", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.append3Digits(sb, 1);
+        assertEquals("001", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.append3Digits(sb, 21);
+        assertEquals("021", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.append3Digits(sb, 321);
+        assertEquals("321", sb.toString());
+    }
+
+    @Test
     public void shouldFormatStringCorrectly() throws IOException {
         StringBuilder sb = new StringBuilder();
         JSONFunctions.appendString(sb, "hello", false);
@@ -127,6 +156,17 @@ public class JSONFunctionsTest {
         sb.setLength(0);
         JSONFunctions.appendChar(sb, '\u2014', true);
         assertEquals("\u2014", sb.toString());
+    }
+
+    @Test
+    public void shouldFormatDisplayString() {
+        assertEquals("\"A\"", JSONFunctions.displayString("A", 20));
+        assertEquals("\"ABCDEF\"", JSONFunctions.displayString("ABCDEF", 20));
+        assertEquals("\"ABCDEFGHIJKLMNOPQRST\"", JSONFunctions.displayString("ABCDEFGHIJKLMNOPQRST", 20));
+        assertEquals("\"ABCDEFGH ... OPQRSTU\"", JSONFunctions.displayString("ABCDEFGHIJKLMNOPQRSTU", 20));
+        assertEquals("\"ABCDEFGH ... TUVWXYZ\"", JSONFunctions.displayString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 20));
+        assertEquals("\"ABCDEFGH ... OPQRSTUV\"", JSONFunctions.displayString("ABCDEFGHIJKLMNOPQRSTUV", 21));
+        assertEquals("\"ABCDEFGH ... STUVWXYZ\"", JSONFunctions.displayString("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 21));
     }
 
     @Test

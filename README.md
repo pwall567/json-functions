@@ -9,29 +9,29 @@ Functions for use in JSON parsing and formatting
 ## Usage
 
 These functions are used by other libraries to perform common functions related to JSON parsing and formatting.
-For details on their usage, see the JavaDoc.
+For details on their usage, see the source or the JavaDoc.
 
 ## Dependency Specification
 
-The latest version of the library is 1.1, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.2, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.1'
+    implementation 'net.pwall.json:json-functions:1.2'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.1")
+    implementation("net.pwall.json:json-functions:1.2")
 ```
 
 Peter Wall
 
-2021-08-14
+2021-08-21

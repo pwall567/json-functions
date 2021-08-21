@@ -138,6 +138,43 @@ public class JSONFunctions {
     }
 
     /**
+     * Append an {@code int} to an {@link Appendable} as two decimal digits.  There is often a requirement to output a
+     * number as 2 digits, for example the cents value in dollars and cents, or hours, minutes and seconds in a time
+     * string.  Note that there is no range check on the input value; to use this method in cases where the value is not
+     * guaranteed to be in the range 00-99, use:
+     * <pre>
+     *     Strings.append2Digits(a, Math.abs(i) % 100);
+     * </pre>
+     *
+     * @param   a           the {@link Appendable}
+     * @param   i           the {@code int}
+     * @throws  IOException if thrown by the {@link Appendable}
+     */
+    public static void append2Digits(Appendable a, int i) throws IOException {
+        a.append(tensDigits[i]);
+        a.append(digits[i]);
+    }
+
+    /**
+     * Append an {@code int} to an {@link Appendable} as three decimal digits.  There is less frequently a requirement
+     * to output a number as 3 digits, for example the milliseconds in a time string.  Note that there is no range check
+     * on the input value; to use this method in cases where the value is not guaranteed to be in the range 000-999,
+     * use:
+     * <pre>
+     *     Strings.append3Digits(a, Math.abs(i) % 1000);
+     * </pre>
+     *
+     * @param   a           the {@link Appendable}
+     * @param   i           the {@code int}
+     * @throws  IOException if thrown by the {@link Appendable}
+     */
+    public static void append3Digits(Appendable a, int i) throws IOException {
+        int n = i / 100;
+        a.append(digits[n]);
+        append2Digits(a, i - n * 100);
+    }
+
+    /**
      * Append a positive {@code long} to an {@link Appendable}.  This method outputs the digits left to right, avoiding
      * the need to allocate a separate object to hold the string form.
      *
@@ -179,6 +216,16 @@ public class JSONFunctions {
         a.append('"');
     }
 
+    /**
+     * Append a single character to an {@link Appendable} using JSON escaping rules.  The characters above the ASCII
+     * range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless the {@code includeNonASCII}
+     * flag is set to {@code true}.
+     *
+     * @param   a                   the {@link Appendable}
+     * @param   ch                  the character
+     * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
+     * @throws  IOException         if thrown by the {@link Appendable}
+     */
     public static void appendChar(Appendable a, char ch, boolean includeNonASCII) throws IOException {
         if (ch == '"' || ch == '\\') {
             a.append('\\');
@@ -194,7 +241,7 @@ public class JSONFunctions {
             a.append("\\r");
         else if (ch == '\t')
             a.append("\\t");
-        else if (ch < 0x20 || ch >= 0x7F && !includeNonASCII) {
+        else if (ch < 0x20 || ch >= 0x7F && ch < 0xA0 || ch >= 0xA0 && !includeNonASCII) {
             a.append("\\u");
             a.append(hexDigits[(ch >> 12) & 0xF]);
             a.append(hexDigits[(ch >> 8) & 0xF]);
@@ -203,6 +250,37 @@ public class JSONFunctions {
         }
         else
             a.append(ch);
+    }
+
+    /**
+     * Create a display form of a string, usually for error reporting.  The string is constrained to a maximum number of
+     * characters, and if it exceeds that number the string is split and "<code> ... </code>" is inserted in the middle.
+     *
+     * @param   str         the string
+     * @param   maxChars    the maximum number of characters
+     * @return              the display string
+     */
+    public static String displayString(String str, int maxChars) {
+        StringBuilder sb = new StringBuilder();
+        sb.append('"');
+        try {
+            int i = 0;
+            int n = str.length();
+            if (maxChars > 7 && n > maxChars) {
+                int m = (maxChars - 4) >> 1;
+                while (i < m)
+                    appendChar(sb, str.charAt(i++), true);
+                sb.append(" ... ");
+                i = n - ((maxChars - 5) >> 1);
+            }
+            while (i < n)
+                appendChar(sb, str.charAt(i++), true);
+        }
+        catch (IOException ignore) {
+            // can't happen - StringBuilder doesn't throw exception
+        }
+        sb.append('"');
+        return sb.toString();
     }
 
     /**
