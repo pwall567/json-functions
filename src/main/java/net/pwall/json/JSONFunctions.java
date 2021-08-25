@@ -28,6 +28,7 @@ package net.pwall.json;
 import java.io.IOException;
 
 import net.pwall.text.TextMatcher;
+import net.pwall.util.IntOutput;
 
 /**
  * A set of static functions used in conversion to and from JSON string representations.
@@ -40,163 +41,6 @@ public class JSONFunctions {
     public static final String ILLEGAL_CHAR = "Illegal character in JSON string";
     public static final String ILLEGAL_UNICODE_SEQUENCE = "Illegal Unicode sequence in JSON string";
     public static final String ILLEGAL_ESCAPE_SEQUENCE = "Illegal escape sequence in JSON string";
-
-    private static final char[] digits = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-    };
-
-    private static final char[] tensDigits = {
-            '0', '0', '0', '0', '0', '0', '0', '0', '0', '0',
-            '1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-            '2', '2', '2', '2', '2', '2', '2', '2', '2', '2',
-            '3', '3', '3', '3', '3', '3', '3', '3', '3', '3',
-            '4', '4', '4', '4', '4', '4', '4', '4', '4', '4',
-            '5', '5', '5', '5', '5', '5', '5', '5', '5', '5',
-            '6', '6', '6', '6', '6', '6', '6', '6', '6', '6',
-            '7', '7', '7', '7', '7', '7', '7', '7', '7', '7',
-            '8', '8', '8', '8', '8', '8', '8', '8', '8', '8',
-            '9', '9', '9', '9', '9', '9', '9', '9', '9', '9'
-    };
-
-    private static final char[] hexDigits = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
-
-    /**
-     * Append an {@code int} to an {@link Appendable}.  This method outputs the digits left to right, avoiding the need
-     * to allocate a separate object to hold the string form.
-     *
-     * @param   a           the {@link Appendable}
-     * @param   i           the {@code int}
-     * @throws IOException if thrown by the {@link Appendable}
-     */
-    public static void appendInt(Appendable a, int i) throws IOException {
-        if (i < 0) {
-            if (i == Integer.MIN_VALUE)
-                a.append("-2147483648");
-            else {
-                a.append('-');
-                appendPositiveInt(a, -i);
-            }
-        }
-        else
-            appendPositiveInt(a, i);
-    }
-
-    /**
-     * Append a positive {@code int} to an {@link Appendable}.  This method outputs the digits left to right, avoiding
-     * the need to allocate a separate object to hold the string form.
-     *
-     * @param   a           the {@link Appendable}
-     * @param   i           the {@code int}
-     * @throws  IOException if thrown by the {@link Appendable}
-     */
-    public static void appendPositiveInt(Appendable a, int i) throws IOException {
-        if (i >= 100) {
-            int n = i / 100;
-            appendPositiveInt(a, n);
-            i -= n * 100;
-            a.append(tensDigits[i]);
-            a.append(digits[i]);
-        }
-        else if (i >= 10) {
-            a.append(tensDigits[i]);
-            a.append(digits[i]);
-        }
-        else
-            a.append(digits[i]);
-    }
-
-    /**
-     * Append a {@code long} to an {@link Appendable}.  This method outputs the digits left to right, avoiding the need
-     * to allocate a separate object to hold the string form.
-     *
-     * @param   a           the {@link Appendable}
-     * @param   n           the {@code long}
-     * @throws  IOException if thrown by the {@link Appendable}
-     */
-    public static void appendLong(Appendable a, long n) throws IOException {
-        if (n < 0) {
-            if (n == Long.MIN_VALUE)
-                a.append("-9223372036854775808");
-            else {
-                a.append('-');
-                appendPositiveLong(a, -n);
-            }
-        }
-        else
-            appendPositiveLong(a, n);
-    }
-
-    /**
-     * Append an {@code int} to an {@link Appendable} as two decimal digits.  There is often a requirement to output a
-     * number as 2 digits, for example the cents value in dollars and cents, or hours, minutes and seconds in a time
-     * string.  Note that there is no range check on the input value; to use this method in cases where the value is not
-     * guaranteed to be in the range 00-99, use:
-     * <pre>
-     *     Strings.append2Digits(a, Math.abs(i) % 100);
-     * </pre>
-     *
-     * @param   a           the {@link Appendable}
-     * @param   i           the {@code int}
-     * @throws  IOException if thrown by the {@link Appendable}
-     */
-    public static void append2Digits(Appendable a, int i) throws IOException {
-        a.append(tensDigits[i]);
-        a.append(digits[i]);
-    }
-
-    /**
-     * Append an {@code int} to an {@link Appendable} as three decimal digits.  There is less frequently a requirement
-     * to output a number as 3 digits, for example the milliseconds in a time string.  Note that there is no range check
-     * on the input value; to use this method in cases where the value is not guaranteed to be in the range 000-999,
-     * use:
-     * <pre>
-     *     Strings.append3Digits(a, Math.abs(i) % 1000);
-     * </pre>
-     *
-     * @param   a           the {@link Appendable}
-     * @param   i           the {@code int}
-     * @throws  IOException if thrown by the {@link Appendable}
-     */
-    public static void append3Digits(Appendable a, int i) throws IOException {
-        int n = i / 100;
-        a.append(digits[n]);
-        append2Digits(a, i - n * 100);
-    }
-
-    /**
-     * Append a positive {@code long} to an {@link Appendable}.  This method outputs the digits left to right, avoiding
-     * the need to allocate a separate object to hold the string form.
-     *
-     * @param   a           the {@link Appendable}
-     * @param   n           the {@code long}
-     * @throws  IOException if thrown by the {@link Appendable}
-     */
-    public static void appendPositiveLong(Appendable a, long n) throws IOException {
-        if (n >= 100) {
-            long m = n / 100;
-            appendPositiveLong(a, m);
-            int i = (int)(n - m * 100);
-            a.append(tensDigits[i]);
-            a.append(digits[i]);
-        }
-        else {
-            int i = (int)n;
-            if (i >= 10)
-                a.append(tensDigits[i]);
-            a.append(digits[i]);
-        }
-    }
 
     /**
      * Append a {@link CharSequence} to an {@link Appendable} in JSON quoted string form (using JSON escaping rules).
@@ -243,10 +87,7 @@ public class JSONFunctions {
             a.append("\\t");
         else if (ch < 0x20 || ch >= 0x7F && ch < 0xA0 || ch >= 0xA0 && !includeNonASCII) {
             a.append("\\u");
-            a.append(hexDigits[(ch >> 12) & 0xF]);
-            a.append(hexDigits[(ch >> 8) & 0xF]);
-            a.append(hexDigits[(ch >> 4) & 0xF]);
-            a.append(hexDigits[ch & 0xF]);
+            IntOutput.append4Hex(a, ch);
         }
         else
             a.append(ch);
