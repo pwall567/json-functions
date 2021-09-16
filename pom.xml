@@ -5,7 +5,7 @@
 
   <groupId>net.pwall.json</groupId>
   <artifactId>json-functions</artifactId>
-  <version>1.3</version>
+  <version>1.3.1</version>
   <name>Functions for use in JSON parsing and formatting</name>
   <description>Library of functions for use in JSON parsing and formatting</description>
   <packaging>jar</packaging>
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>net.pwall.text</groupId>
       <artifactId>textmatcher</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
     </dependency>
     <dependency>
       <groupId>net.pwall.util</groupId>
