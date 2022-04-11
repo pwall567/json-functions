@@ -13,25 +13,25 @@ For details on their usage, see the source or the JavaDoc.
 
 ## Dependency Specification
 
-The latest version of the library is 1.4, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.4.1, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.4</version>
+      <version>1.4.1</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.4'
+    implementation 'net.pwall.json:json-functions:1.4.1'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.4")
+    implementation("net.pwall.json:json-functions:1.4.1")
 ```
 
 Peter Wall
 
-2022-01-27
+2022-04-11
