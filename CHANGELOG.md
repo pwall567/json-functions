@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.5] - 2022-05-31
+### Changed
+- `JSONFunctions`: added output functions taking `IntConsumer`
+
 ## [1.4.2] - 2022-05-01
 ### Changed
 - `pom.xml`: bumped dependency version

@@ -5,7 +5,7 @@
 
   <groupId>net.pwall.json</groupId>
   <artifactId>json-functions</artifactId>
-  <version>1.4.2</version>
+  <version>1.5</version>
   <name>Functions for use in JSON parsing and formatting</name>
   <description>Library of functions for use in JSON parsing and formatting</description>
   <packaging>jar</packaging>

@@ -2,7 +2,7 @@
  * @(#) JSONFunctions.java
  *
  * json-functions  Functions for use in JSON parsing and formatting
- * Copyright (c) 2021 Peter Wall
+ * Copyright (c) 2021, 2022 Peter Wall
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 package net.pwall.json;
 
 import java.io.IOException;
+import java.util.function.IntConsumer;
 
 import net.pwall.text.TextMatcher;
 import net.pwall.util.IntOutput;
@@ -43,7 +44,7 @@ public class JSONFunctions {
     public static final String ILLEGAL_ESCAPE_SEQUENCE = "Illegal escape sequence in JSON string";
 
     /**
-     * Append a {@link CharSequence} to an {@link Appendable} in JSON quoted string form (using JSON escaping rules).
+     * Append a {@link CharSequence} to an {@link Appendable} in JSON quoted string form (applying JSON escaping rules).
      * The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless
      * the {@code includeNonASCII} flag is set to {@code true}.
      *
@@ -61,7 +62,23 @@ public class JSONFunctions {
     }
 
     /**
-     * Append a single character to an {@link Appendable} using JSON escaping rules.  The characters above the ASCII
+     * Output a {@link CharSequence} using an {@link IntConsumer} in JSON quoted string form (applying JSON escaping
+     * rules).  The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape
+     * sequences unless the {@code includeNonASCII} flag is set to {@code true}.
+     *
+     * @param   cs                  the {@link CharSequence}
+     * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
+     * @param   consumer            the {@link IntConsumer}
+     */
+    public static void outputString(CharSequence cs, boolean includeNonASCII, IntConsumer consumer) {
+        consumer.accept('"');
+        for (int i = 0, n = cs.length(); i < n; i++)
+            outputChar(cs.charAt(i), includeNonASCII, consumer);
+        consumer.accept('"');
+    }
+
+    /**
+     * Append a single character to an {@link Appendable} applying JSON escaping rules.  The characters above the ASCII
      * range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless the {@code includeNonASCII}
      * flag is set to {@code true}.
      *
@@ -91,6 +108,49 @@ public class JSONFunctions {
         }
         else
             a.append(ch);
+    }
+
+    /**
+     * Output a single character using an {@link IntConsumer} applying JSON escaping rules.  The characters above the
+     * ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless the
+     * {@code includeNonASCII} flag is set to {@code true}.
+     *
+     * @param   ch                  the character
+     * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
+     * @param   consumer            the {@link IntConsumer}
+     */
+    public static void outputChar(char ch, boolean includeNonASCII, IntConsumer consumer) {
+        if (ch == '"' || ch == '\\') {
+            consumer.accept('\\');
+            consumer.accept(ch);
+        }
+        else if (ch == '\b') {
+            consumer.accept('\\');
+            consumer.accept('b');
+        }
+        else if (ch == '\f') {
+            consumer.accept('\\');
+            consumer.accept('f');
+        }
+        else if (ch == '\n') {
+            consumer.accept('\\');
+            consumer.accept('n');
+        }
+        else if (ch == '\r') {
+            consumer.accept('\\');
+            consumer.accept('r');
+        }
+        else if (ch == '\t') {
+            consumer.accept('\\');
+            consumer.accept('t');
+        }
+        else if (ch < 0x20 || ch >= 0x7F && ch < 0xA0 || ch >= 0xA0 && !includeNonASCII) {
+            consumer.accept('\\');
+            consumer.accept('u');
+            IntOutput.output4Hex(ch, consumer);
+        }
+        else
+            consumer.accept(ch);
     }
 
     /**

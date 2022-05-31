@@ -2,7 +2,7 @@
  * @(#) JSONFunctionsTest.java
  *
  * json-functions  Functions for use in JSON parsing and formatting
- * Copyright (c) 2021 Peter Wall
+ * Copyright (c) 2021, 2022 Peter Wall
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 package net.pwall.json.test;
 
 import java.io.IOException;
+import java.util.function.IntConsumer;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -70,6 +71,26 @@ public class JSONFunctionsTest {
     }
 
     @Test
+    public void shouldFormatStringCorrectlyUsingLambda() {
+        StringBuilder sb = new StringBuilder();
+        IntConsumer ic = ch -> sb.append((char)ch);
+        JSONFunctions.outputString("hello", false, ic);
+        assertEquals("\"hello\"", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputString("hello\n", false, ic);
+        assertEquals("\"hello\\n\"", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputString("", false, ic);
+        assertEquals("\"\"", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputString("mdash \u2014 \r\n", false, ic);
+        assertEquals("\"mdash \\u2014 \\r\\n\"", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputString("mdash \u2014 \r\n", true, ic);
+        assertEquals("\"mdash \u2014 \\r\\n\"", sb.toString());
+    }
+
+    @Test
     public void shouldFormatSingleChar() throws IOException {
         StringBuilder sb = new StringBuilder();
         JSONFunctions.appendChar(sb, 'A', false);
@@ -82,6 +103,23 @@ public class JSONFunctionsTest {
         assertEquals("\\u2014", sb.toString());
         sb.setLength(0);
         JSONFunctions.appendChar(sb, '\u2014', true);
+        assertEquals("\u2014", sb.toString());
+    }
+
+    @Test
+    public void shouldFormatSingleCharUsingLambda() {
+        StringBuilder sb = new StringBuilder();
+        IntConsumer ic = ch -> sb.append((char)ch);
+        JSONFunctions.outputChar('A', false, ic);
+        assertEquals("A", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputChar('\t', false, ic);
+        assertEquals("\\t", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputChar('\u2014', false, ic);
+        assertEquals("\\u2014", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputChar('\u2014', true, ic);
         assertEquals("\u2014", sb.toString());
     }
 
