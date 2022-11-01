@@ -21,6 +21,8 @@ The functions that use `Appendable` are all declared as throwing `IOException`, 
 implementation class does so.
 If the functions are used with a `StringBuilder`, the exception may safely be ignored.
 
+There is also an `escapeString` function that returns the string in its escaped form.
+
 The parsing functions make use of the [`textmatcher`](https://github.com/pwall567/textmatcher) library.
 The `TextMatcher` class holds a string to be parsed, with indexes to represent the start and end of the current parsed
 element.

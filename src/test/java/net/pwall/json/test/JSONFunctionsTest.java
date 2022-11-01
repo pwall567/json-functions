@@ -91,6 +91,15 @@ public class JSONFunctionsTest {
     }
 
     @Test
+    public void shouldFormatStringCorrectlyReturningString() {
+        assertEquals("\"hello\"", JSONFunctions.escapeString("hello", false));
+        assertEquals("\"hello\\n\"", JSONFunctions.escapeString("hello\n", false));
+        assertEquals("\"\"", JSONFunctions.escapeString("", false));
+        assertEquals("\"mdash \\u2014 \\r\\n\"", JSONFunctions.escapeString("mdash \u2014 \r\n", false));
+        assertEquals("\"mdash \u2014 \\r\\n\"", JSONFunctions.escapeString("mdash \u2014 \r\n", true));
+    }
+
+    @Test
     public void shouldFormatSingleChar() throws IOException {
         StringBuilder sb = new StringBuilder();
         JSONFunctions.appendChar(sb, 'A', false);

@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [Unreleased]
+### Changed
+- `JSONFunctions`: added `escapeString`
+- `pom.xml`: bumped dependency version
+
 ## [1.5] - 2022-05-31
 ### Changed
 - `JSONFunctions`: added output functions taking `IntConsumer`

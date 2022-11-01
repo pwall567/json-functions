@@ -48,7 +48,6 @@ public class JSONFunctions {
      * The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless
      * the {@code includeNonASCII} flag is set to {@code true}.
      *
-     *
      * @param   a                   the {@link Appendable}
      * @param   cs                  the {@link CharSequence}
      * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
@@ -75,6 +74,26 @@ public class JSONFunctions {
         for (int i = 0, n = cs.length(); i < n; i++)
             outputChar(cs.charAt(i), includeNonASCII, consumer);
         consumer.accept('"');
+    }
+
+    /**
+     * Convert a {@link CharSequence} to a {@link String} in JSON quoted string form (applying JSON escaping rules).
+     * The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless
+     * the {@code includeNonASCII} flag is set to {@code true}.
+     *
+     * @param   cs                  the {@link CharSequence}
+     * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
+     * @return  the converted string
+     */
+    public static String escapeString(CharSequence cs, boolean includeNonASCII) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            appendString(sb, cs, includeNonASCII);
+        }
+        catch (IOException ignore) {
+            // Can't happen - StringBuilder doesn't throw exception
+        }
+        return sb.toString();
     }
 
     /**
