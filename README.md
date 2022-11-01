@@ -21,7 +21,8 @@ The functions that use `Appendable` are all declared as throwing `IOException`, 
 implementation class does so.
 If the functions are used with a `StringBuilder`, the exception may safely be ignored.
 
-There is also an `escapeString` function that returns the string in its escaped form.
+There is also an `escapeString` function that returns the string in its escaped form, along with a version of this
+function that omits the enclosing quotes.
 
 The parsing functions make use of the [`textmatcher`](https://github.com/pwall567/textmatcher) library.
 The `TextMatcher` class holds a string to be parsed, with indexes to represent the start and end of the current parsed
@@ -65,6 +66,47 @@ The parameters are:
 Example:
 ```java
     JSONFunctions.outputString("Müller Straße", false, ch -> outputStream.write(ch));
+```
+
+### `escapeString`
+
+This function converts a JSON string to another string, enclosing it in quotes and escaping special characters
+according to the [JSON specification](https://www.rfc-editor.org/rfc/rfc8259.html#section-7).
+The parameters are:
+- the string to be output (actually a `CharSequence`)
+- a boolean indicator &ndash; if set to `true`, characters above the base ASCII set will be output unencoded; if set to
+  `false`, any such characters will be output as Unicode escape sequences
+
+The function returns the converted string.
+
+Example:
+```java
+    String escaped = JSONFunctions.escapeString("Müller Straße", false);
+```
+will return:
+```
+"M\u00FCller Stra\u00DFe"
+```
+
+### `escapeStringUnquoted`
+
+This function converts a JSON string to an escaped form of the string like the above function, but without the enclosing
+quotes.
+The parameters are:
+- the string to be output (actually a `CharSequence`)
+- a boolean indicator &ndash; if set to `true`, characters above the base ASCII set will be output unencoded; if set to
+  `false`, any such characters will be output as Unicode escape sequences
+
+The function returns the converted string, or if no characters in the string require conversion, it returns the original
+string unmodified (avoiding the need for object allocations).
+
+Example:
+```java
+    String escaped = JSONFunctions.escapeStringUnquoted("Müller Straße", false);
+```
+will return:
+```
+M\u00FCller Stra\u00DFe
 ```
 
 ### `appendChar`
@@ -143,25 +185,25 @@ This function simply tests whether a character is a whitespace character accordi
 
 ## Dependency Specification
 
-The latest version of the library is 1.5, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.6, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.5</version>
+      <version>1.6</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.5'
+    implementation 'net.pwall.json:json-functions:1.6'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.5")
+    implementation("net.pwall.json:json-functions:1.6")
 ```
 
 Peter Wall
 
-2022-10-25
+2022-11-01

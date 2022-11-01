@@ -2,9 +2,9 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [Unreleased]
+## [1.6] - 2022-11-01
 ### Changed
-- `JSONFunctions`: added `escapeString`
+- `JSONFunctions`: added `escapeString` and `escapeStringUnquoted`
 - `pom.xml`: bumped dependency version
 
 ## [1.5] - 2022-05-31

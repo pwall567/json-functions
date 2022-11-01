@@ -97,6 +97,51 @@ public class JSONFunctions {
     }
 
     /**
+     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules with without enclosing quotes.
+     * The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless
+     * the {@code includeNonASCII} flag is set to {@code true}.  If there are no characters requiring conversion, the
+     * original string is returned unmodified.
+     *
+     * @param   cs                  the {@link CharSequence}
+     * @param   includeNonASCII     if {@code true}, output the characters above the ASCII range without escaping
+     * @return  the converted string
+     */
+    public static String escapeStringUnquoted(CharSequence cs, boolean includeNonASCII) {
+        for (int i = 0, n = cs.length(); i < n; i++) {
+            char ch = cs.charAt(i);
+            if (ch < ' ' || ch >= '\u007F' || ch == '"' || ch == '\\') {
+                try {
+                    StringBuilder sb = new StringBuilder();
+                    if (i > 0)
+                        sb.append(cs, 0, i);
+                    while (true) {
+                        appendChar(sb, ch, includeNonASCII);
+                        if (++i >= n)
+                            break;
+                        ch = cs.charAt(i);
+                    }
+                    return sb.toString();
+                }
+                catch (IOException e) {
+                    // Can't happen - StringBuilder doesn't throw exception
+                }
+            }
+        }
+        return cs.toString();
+    }
+
+    /**
+     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules with without enclosing quotes.
+     * If there are no characters requiring conversion, the original string is returned unmodified.
+     *
+     * @param   cs                  the {@link CharSequence}
+     * @return  the converted string
+     */
+    public static String escapeStringUnquoted(CharSequence cs) {
+        return escapeStringUnquoted(cs, false);
+    }
+
+    /**
      * Append a single character to an {@link Appendable} applying JSON escaping rules.  The characters above the ASCII
      * range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless the {@code includeNonASCII}
      * flag is set to {@code true}.

@@ -31,6 +31,7 @@ import java.util.function.IntConsumer;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -97,6 +98,25 @@ public class JSONFunctionsTest {
         assertEquals("\"\"", JSONFunctions.escapeString("", false));
         assertEquals("\"mdash \\u2014 \\r\\n\"", JSONFunctions.escapeString("mdash \u2014 \r\n", false));
         assertEquals("\"mdash \u2014 \\r\\n\"", JSONFunctions.escapeString("mdash \u2014 \r\n", true));
+    }
+
+    @Test
+    public void shouldFormatStringCorrectlyReturningStringWithoutQuotes() {
+        assertSame("hello", JSONFunctions.escapeStringUnquoted("hello", false));
+        assertEquals("hello\\n", JSONFunctions.escapeStringUnquoted("hello\n", false));
+        assertSame("", JSONFunctions.escapeStringUnquoted("", false));
+        assertEquals("mdash \\u2014 \\r\\n", JSONFunctions.escapeStringUnquoted("mdash \u2014 \r\n", false));
+        assertEquals("mdash \u2014 \\r\\n", JSONFunctions.escapeStringUnquoted("mdash \u2014 \r\n", true));
+        assertEquals("\\t\\r\\n", JSONFunctions.escapeStringUnquoted("\t\r\n", false));
+    }
+
+    @Test
+    public void shouldFormatStringCorrectlyReturningStringWithoutQuotesAndWithDefaultFlag() {
+        assertSame("hello", JSONFunctions.escapeStringUnquoted("hello"));
+        assertEquals("hello\\n", JSONFunctions.escapeStringUnquoted("hello\n"));
+        assertSame("", JSONFunctions.escapeStringUnquoted(""));
+        assertEquals("mdash \\u2014 \\r\\n", JSONFunctions.escapeStringUnquoted("mdash \u2014 \r\n"));
+        assertEquals("\\t\\r\\n", JSONFunctions.escapeStringUnquoted("\t\r\n"));
     }
 
     @Test
