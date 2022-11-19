@@ -2,6 +2,11 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.7] - 2022-11-19
+### Changed
+- `JSONFunctions`: changed `isSpaceCharacter()` to take `char` argument
+- `pom.xml`: bumped dependency version
+
 ## [1.6] - 2022-11-01
 ### Changed
 - `JSONFunctions`: added `escapeString` and `escapeStringUnquoted`

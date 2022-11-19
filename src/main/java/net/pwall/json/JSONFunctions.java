@@ -318,7 +318,7 @@ public class JSONFunctions {
      * @param   ch          the character
      * @return              {@code true} if the character is a space
      */
-    public static boolean isSpaceCharacter(int ch) {
+    public static boolean isSpaceCharacter(char ch) {
         return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r';
     }
 

@@ -185,25 +185,25 @@ This function simply tests whether a character is a whitespace character accordi
 
 ## Dependency Specification
 
-The latest version of the library is 1.6, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.7, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.6</version>
+      <version>1.7</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.6'
+    implementation 'net.pwall.json:json-functions:1.7'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.6")
+    implementation("net.pwall.json:json-functions:1.7")
 ```
 
 Peter Wall
 
-2022-11-01
+2022-11-19
