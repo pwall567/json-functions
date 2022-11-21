@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.7.1] - 2022-11-21
+### Changed
+- `pom.xml`: bumped dependency version
+
 ## [1.7] - 2022-11-19
 ### Changed
 - `JSONFunctions`: changed `isSpaceCharacter()` to take `char` argument
