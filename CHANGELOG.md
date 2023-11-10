@@ -2,6 +2,12 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.8] - 2023-11-10
+### Changed
+- `JSONFunctions`: use lower case for hexadecimal \uxxxx constructs
+- `pom.xml`: removed JUnit5 (it was causing build failures)
+- `pom.xml`: updated plugin and dependency versions
+
 ## [1.7.2] - 2022-11-23
 ### Changed
 - `pom.xml`: bumped dependency version

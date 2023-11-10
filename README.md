@@ -50,7 +50,7 @@ Example:
 ```
 will output:
 ```
-"M\u00FCller Stra\u00DFe"
+"M\u00fcller Stra\u00dfe"
 ```
 
 ### `outputString`
@@ -66,6 +66,10 @@ The parameters are:
 Example:
 ```java
     JSONFunctions.outputString("Müller Straße", false, ch -> outputStream.write(ch));
+```
+will output:
+```
+"M\u00fcller Stra\u00dfe"
 ```
 
 ### `escapeString`
@@ -85,7 +89,15 @@ Example:
 ```
 will return:
 ```
-"M\u00FCller Stra\u00DFe"
+"M\u00fcller Stra\u00dfe"
+```
+Or, if the option is set to return characters above the base ASCII set unencoded is selected::
+```java
+    String escaped = JSONFunctions.escapeString("Müller Straße", true);
+```
+will return:
+```
+"Müller Straße"
 ```
 
 ### `escapeStringUnquoted`
@@ -106,7 +118,7 @@ Example:
 ```
 will return:
 ```
-M\u00FCller Stra\u00DFe
+M\u00fcller Stra\u00dfe
 ```
 
 ### `appendChar`
@@ -123,7 +135,7 @@ Example:
 ```
 will output:
 ```
-\u00A3
+\u00a3
 ```
 
 ### `outputChar`
@@ -140,7 +152,7 @@ Example:
 ```
 will output:
 ```
-\u00A3
+\u00a3
 ```
 
 ### `displayString`
@@ -185,25 +197,25 @@ This function simply tests whether a character is a whitespace character accordi
 
 ## Dependency Specification
 
-The latest version of the library is 1.7.2, and it may be obtained from the Maven Central repository.
+The latest version of the library is 1.8, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
       <groupId>net.pwall.json</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.7.2</version>
+      <version>1.8</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.7.2'
+    implementation 'net.pwall.json:json-functions:1.8'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.7.2")
+    implementation("net.pwall.json:json-functions:1.8")
 ```
 
 Peter Wall
 
-2022-11-23
+2023-11-10

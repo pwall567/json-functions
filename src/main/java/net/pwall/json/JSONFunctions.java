@@ -2,7 +2,7 @@
  * @(#) JSONFunctions.java
  *
  * json-functions  Functions for use in JSON parsing and formatting
- * Copyright (c) 2021, 2022 Peter Wall
+ * Copyright (c) 2021, 2022, 2023 Peter Wall
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,9 +97,9 @@ public class JSONFunctions {
     }
 
     /**
-     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules with without enclosing quotes.
-     * The characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless
-     * the {@code includeNonASCII} flag is set to {@code true}.  If there are no characters requiring conversion, the
+     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules without enclosing quotes.  The
+     * characters above the ASCII range ({@code 0x20} to {@code 0x7E}) are output as Unicode escape sequences unless the
+     * {@code includeNonASCII} flag is set to {@code true}.  If there are no characters requiring conversion, the
      * original string is returned unmodified.
      *
      * @param   cs                  the {@link CharSequence}
@@ -131,8 +131,8 @@ public class JSONFunctions {
     }
 
     /**
-     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules with without enclosing quotes.
-     * If there are no characters requiring conversion, the original string is returned unmodified.
+     * Convert a {@link CharSequence} to a {@link String}, applying JSON escaping rules without enclosing quotes.  If
+     * there are no characters requiring conversion, the original string is returned unmodified.
      *
      * @param   cs                  the {@link CharSequence}
      * @return  the converted string
@@ -168,7 +168,7 @@ public class JSONFunctions {
             a.append("\\t");
         else if (ch < 0x20 || ch >= 0x7F && ch < 0xA0 || ch >= 0xA0 && !includeNonASCII) {
             a.append("\\u");
-            IntOutput.append4Hex(a, ch);
+            IntOutput.append4HexLC(a, ch);
         }
         else
             a.append(ch);
@@ -211,7 +211,7 @@ public class JSONFunctions {
         else if (ch < 0x20 || ch >= 0x7F && ch < 0xA0 || ch >= 0xA0 && !includeNonASCII) {
             consumer.accept('\\');
             consumer.accept('u');
-            IntOutput.output4Hex(ch, consumer);
+            IntOutput.output4HexLC(ch, consumer);
         }
         else
             consumer.accept(ch);

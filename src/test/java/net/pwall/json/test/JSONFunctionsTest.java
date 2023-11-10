@@ -2,7 +2,7 @@
  * @(#) JSONFunctionsTest.java
  *
  * json-functions  Functions for use in JSON parsing and formatting
- * Copyright (c) 2021, 2022 Peter Wall
+ * Copyright (c) 2021, 2022, 2023 Peter Wall
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +28,12 @@ package net.pwall.json.test;
 import java.io.IOException;
 import java.util.function.IntConsumer;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import net.pwall.json.JSONFunctions;
 import net.pwall.text.TextMatcher;
@@ -133,6 +133,12 @@ public class JSONFunctionsTest {
         sb.setLength(0);
         JSONFunctions.appendChar(sb, '\u2014', true);
         assertEquals("\u2014", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.appendChar(sb, '\u20AC', false);
+        assertEquals("\\u20ac", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.appendChar(sb, '\u20AC', true);
+        assertEquals("\u20AC", sb.toString());
     }
 
     @Test
@@ -150,6 +156,12 @@ public class JSONFunctionsTest {
         sb.setLength(0);
         JSONFunctions.outputChar('\u2014', true, ic);
         assertEquals("\u2014", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputChar('\u20AC', false, ic);
+        assertEquals("\\u20ac", sb.toString());
+        sb.setLength(0);
+        JSONFunctions.outputChar('\u20AC', true, ic);
+        assertEquals("\u20AC", sb.toString());
     }
 
     @Test
