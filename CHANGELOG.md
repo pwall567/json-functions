@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.9] - 2023-12-02
+### Changed
+- `pom.xml`: updated dependency versions
+
 ## [1.8] - 2023-11-10
 ### Changed
 - `JSONFunctions`: use lower case for hexadecimal \uxxxx constructs
