@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package net.pwall.json.test;
+package io.jstuff.json.test;
 
 import java.io.IOException;
 import java.util.function.IntConsumer;
@@ -35,8 +35,8 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import net.pwall.json.JSONFunctions;
-import net.pwall.text.TextMatcher;
+import io.jstuff.json.JSONFunctions;
+import io.jstuff.text.TextMatcher;
 
 public class JSONFunctionsTest {
 

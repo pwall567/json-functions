@@ -1,8 +1,8 @@
 # json-functions
 
-[![Build Status](https://travis-ci.com/pwall567/json-functions.svg?branch=main)](https://app.travis-ci.com/github/pwall567/json-functions)
+[![Build Status](https://github.com/pwall567/json-functions/actions/workflows/build.yml/badge.svg)](https://github.com/pwall567/json-functions/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Maven Central](https://img.shields.io/maven-central/v/net.pwall.json/json-functions?label=Maven%20Central)](https://search.maven.org/search?q=g:%22net.pwall.json%22%20AND%20a:%22json-functions%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.jstuff/json-functions?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.jstuff%22%20AND%20a:%22json-functions%22)
 
 Functions for use in JSON parsing and formatting
 
@@ -197,23 +197,23 @@ This function simply tests whether a character is a whitespace character accordi
 
 ## Dependency Specification
 
-The latest version of the library is 1.9, and it may be obtained from the Maven Central repository.
+The latest version of the library is 2.0, and it may be obtained from the Maven Central repository.
 
 ### Maven
 ```xml
     <dependency>
-      <groupId>net.pwall.json</groupId>
+      <groupId>io.jstuff</groupId>
       <artifactId>json-functions</artifactId>
-      <version>1.9</version>
+      <version>2.0</version>
     </dependency>
 ```
 ### Gradle
 ```groovy
-    implementation 'net.pwall.json:json-functions:1.9'
+    implementation 'io.jstuff:json-functions:2.0'
 ```
 ### Gradle (kts)
 ```kotlin
-    implementation("net.pwall.json:json-functions:1.9")
+    implementation("io.jstuff:json-functions:2.0")
 ```
 
 Peter Wall

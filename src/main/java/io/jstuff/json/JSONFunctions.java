@@ -23,13 +23,13 @@
  * SOFTWARE.
  */
 
-package net.pwall.json;
+package io.jstuff.json;
 
 import java.io.IOException;
 import java.util.function.IntConsumer;
 
-import net.pwall.text.TextMatcher;
-import net.pwall.util.IntOutput;
+import io.jstuff.text.TextMatcher;
+import io.jstuff.util.IntOutput;
 
 /**
  * A set of static functions used in conversion to and from JSON string representations.
@@ -219,10 +219,12 @@ public class JSONFunctions {
 
     /**
      * Create a display form of a string, usually for error reporting.  The string is constrained to a maximum number of
-     * characters, and if it exceeds that number the string is split and "<code> ... </code>" is inserted in the middle.
+     * characters, and if it exceeds that number the string is split and "<code> ... </code>" is inserted in the middle
+     * (because the inserted string is 5 characters long, the elided string will look better if an odd number is chosen
+     * for the maximum length, since that will result in equal length substrings at start and end).
      *
      * @param   str         the string
-     * @param   maxChars    the maximum number of characters
+     * @param   maxChars    the maximum number of characters (ignored if &lt; 8)
      * @return              the display string
      */
     public static String displayString(String str, int maxChars) {
